@@ -23,17 +23,15 @@
               "src/assets"
             ],
             "styles": [
-        "styles.css",
-        "./plugins/css/semantic.min.css",
-        "./plugins/css/calendar.min.css",
-        "./plugins/css/range.css",
-        "./plugins/css/style.css"
+        "./src/plugins/css/semantic.min.css",
+        "./src/plugins/css/calendar.min.css",
+        "./src/plugins/css/range.css",
       ],
             "scripts": [
-        "./plugins/js/jquery-3.2.1.min.js",
-        "./plugins/js/semantic.min.js",
-        "./plugins/js/calendar.min.js",
-        "./plugins/js/range.js"
+        "./src/plugins/js/jquery-3.2.1.min.js",
+        "./src/plugins/js/semantic.min.js",
+        "./src/plugins/js/calendar.min.js",
+        "./src/plugins/js/range.js"
       ]
           },
           "configurations": {
