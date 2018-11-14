@@ -10,22 +10,6 @@ declare let $: any;
 })
 export class HomeComponent implements OnInit {
 
-  users=['makeschool','newsycombinator','ycombinator'];
-  columns = ['feed1', 'feed2', 'feed3'];
-  time: {
-    start: Date,
-    end: Date
-  };
-
-  setting:{
-    theme:{
-      isInverted:String,
-      color:String,
-    }
-  }
-  isInverted=false;
-  acceptedColors = 'blue purple pink teal green grey orange';
-
   constructor(private dragulaService: DragulaService) {
     dragulaService.createGroup("FEED", {
       direction: 'horizontal',
@@ -33,47 +17,72 @@ export class HomeComponent implements OnInit {
         return handle.classList.contains('move');
       }
     });
-
-    if(localStorage.getItem('setting')){
-
+    let localSettings = (localStorage.getItem('settings'));
+    if (localSettings) {
+      this.settings=JSON.parse(localSettings);
+    }else{
+      this.settings={
+        theme:{
+          color:'blue',
+          isInverted:false
+        }
+      };
     }
   }
 
+  users = ['makeschool', 'newsycombinator', 'ycombinator'];
+  columns = ['feed1', 'feed2', 'feed3'];
+  time: {
+    start: Date,
+    end: Date
+  };
+  settings: Settings;
+  acceptedColors = 'blue purple pink teal green grey orange';
+
+
+
   ngOnInit() {
     this.initUI();
-    this.changeTheme('blue');
+    this.loadSettings(this.settings)
+
   }
 
-  
+  loadSettings(settings: Settings) {
+    this.changeTheme(settings.theme.color);
+    this.invertedTheme(settings.theme.isInverted)
+  }
+  saveSettings(){
+    localStorage.setItem('settings',JSON.stringify(this.settings));
+  }
 
-
-  showSettings() {
+  showThemeBar() {
     $('.ui.sidebar').sidebar({silent: true}).sidebar('show');
   }
 
   changeTheme(color) {
+    this.settings.theme.color=color;
     $('.theme').removeClass(this.acceptedColors)
     $('.theme').addClass(color);
-    this.invertedTheme(this.isInverted)
+    this.invertedTheme(this.settings.theme.isInverted)
   }
 
   invertedTheme(active) {
-    this.isInverted=active;
-if(active){
-  //Setting inverted style
-  $('.segment.theme').addClass('inverted');
-  $('h4').removeClass(this.acceptedColors);
-  $('.ui.feed').find('.summary>a').css('color', '#fff');
-  $('.ui.feed').find('.summary>.date').css('color', '#eeeeee')
-  $('.ui.feed').find('.extra.text').css('color', '#fff');
-  $('.ui.feed').find('.meta>a').css('color', '#eeeeee');
-}else{
-  $('.segment.theme').removeClass('inverted');
-  $('.ui.feed').find('.summary>a').css('color', '#4183c4');
-  $('.ui.feed').find('.summary>.date').css('color', 'rgba(0,0,0,.4)');
-  $('.ui.feed').find('.extra.text').css('color', '#000');
-  $('.ui.feed').find('.meta>a').css('color', 'rgba(0,0,0,.4)');
-}
+    this.settings.theme.isInverted = active;
+    if (active) {
+      //Setting inverted style
+      $('.segment.theme').addClass('inverted');
+      $('h4').removeClass(this.acceptedColors);
+      $('.ui.feed').find('.summary>a').css('color', '#fff');
+      $('.ui.feed').find('.summary>.date').css('color', '#eeeeee')
+      $('.ui.feed').find('.extra.text').css('color', '#fff');
+      $('.ui.feed').find('.meta>a').css('color', '#eeeeee');
+    } else {
+      $('.segment.theme').removeClass('inverted');
+      $('.ui.feed').find('.summary>a').css('color', '#4183c4');
+      $('.ui.feed').find('.summary>.date').css('color', 'rgba(0,0,0,.4)');
+      $('.ui.feed').find('.extra.text').css('color', '#000');
+      $('.ui.feed').find('.meta>a').css('color', 'rgba(0,0,0,.4)');
+    }
 
   }
 
@@ -85,7 +94,18 @@ if(active){
     });
 
     $('.timeRange').calendar();
-    $('.ui.dropdown').dropdown();
+    $('.ui.dropdown').dropdown({
+      onChange:() =>{
+        this.saveSettings();
+      }
+    });
   }
 
+}
+
+interface Settings {
+  theme: {
+    isInverted: boolean,
+    color: String,
+  }
 }
