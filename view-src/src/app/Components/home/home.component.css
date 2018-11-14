@@ -46,3 +46,11 @@ span.handle{
 .ui.segment>h4{
   margin-top: -5px;
 }
+.content>.header.theme>{
+  font-size: 5px !important;
+  background-color: #0f0f10 !important;
+  margin-top: 1000px;
+}
+.ui.feed>.event>.content a {
+  font-size: 16px;
+}

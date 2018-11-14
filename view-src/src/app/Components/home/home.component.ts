@@ -11,20 +11,20 @@ declare let $: any;
 export class HomeComponent implements OnInit {
 
   constructor(private dragulaService: DragulaService) {
-    dragulaService.createGroup("FEED", {
+    dragulaService.createGroup('FEED', {
       direction: 'horizontal',
       moves: (el, container, handle) => {
         return handle.classList.contains('move');
       }
     });
-    let localSettings = (localStorage.getItem('settings'));
+    const localSettings = (localStorage.getItem('settings'));
     if (localSettings) {
-      this.settings=JSON.parse(localSettings);
-    }else{
-      this.settings={
-        theme:{
-          color:'blue',
-          isInverted:false
+      this.settings = JSON.parse(localSettings);
+    } else {
+      this.settings = {
+        theme: {
+          color: 'blue',
+          isInverted: false
         }
       };
     }
@@ -40,45 +40,48 @@ export class HomeComponent implements OnInit {
   acceptedColors = 'blue purple pink teal green grey orange';
 
 
-
   ngOnInit() {
     this.initUI();
-    this.loadSettings(this.settings)
+    this.loadSettings(this.settings);
 
   }
 
   loadSettings(settings: Settings) {
     this.changeTheme(settings.theme.color);
-    this.invertedTheme(settings.theme.isInverted)
   }
-  saveSettings(){
-    localStorage.setItem('settings',JSON.stringify(this.settings));
+
+  saveSettings() {
+    localStorage.setItem('settings', JSON.stringify(this.settings));
   }
 
   showThemeBar() {
-    $('.ui.sidebar').sidebar({silent: true}).sidebar('show');
+    $('.ui.sidebar').sidebar({
+      silent: true, onHide: function () {
+        $('.timeRange').calendar();
+      }
+    }).sidebar('show');
   }
 
   changeTheme(color) {
-    this.settings.theme.color=color;
-    $('.theme').removeClass(this.acceptedColors)
+    this.settings.theme.color = color;
+    $('.theme').removeClass(this.acceptedColors);
     $('.theme').addClass(color);
-    this.invertedTheme(this.settings.theme.isInverted)
+    this.invertedTheme(this.settings.theme.isInverted);
   }
 
   invertedTheme(active) {
     this.settings.theme.isInverted = active;
     if (active) {
-      //Setting inverted style
+      // Setting inverted style
       $('.segment.theme').addClass('inverted');
       $('h4').removeClass(this.acceptedColors);
-      $('.ui.feed').find('.summary>a').css('color', '#fff');
-      $('.ui.feed').find('.summary>.date').css('color', '#eeeeee')
+      $('.ui.feed').find('.ui.header').css('color', '#fff').removeClass(this.acceptedColors);
+      $('.ui.feed').find('.summary>.date').css('color', '#eeeeee');
       $('.ui.feed').find('.extra.text').css('color', '#fff');
       $('.ui.feed').find('.meta>a').css('color', '#eeeeee');
     } else {
       $('.segment.theme').removeClass('inverted');
-      $('.ui.feed').find('.summary>a').css('color', '#4183c4');
+      $('.ui.feed').find('.ui.header').addClass(this.settings.theme.color);
       $('.ui.feed').find('.summary>.date').css('color', 'rgba(0,0,0,.4)');
       $('.ui.feed').find('.extra.text').css('color', '#000');
       $('.ui.feed').find('.meta>a').css('color', 'rgba(0,0,0,.4)');
@@ -95,7 +98,7 @@ export class HomeComponent implements OnInit {
 
     $('.timeRange').calendar();
     $('.ui.dropdown').dropdown({
-      onChange:() =>{
+      onChange: () => {
         this.saveSettings();
       }
     });
@@ -107,5 +110,5 @@ interface Settings {
   theme: {
     isInverted: boolean,
     color: String,
-  }
+  };
 }
