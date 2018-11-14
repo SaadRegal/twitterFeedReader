@@ -1,3 +1,311 @@
-<p>
-  home works!
-</p>
+<div class="ui menu top sidebar overlay" style="overflow-y: visible !important;">
+  <span class="item">Theme :</span>
+  <div class="item">
+    <div class="ui selection dropdown">
+      <i class="dropdown icon"></i>
+      <div class="default text">Skin</div>
+      <div class="menu">
+        <div class="item" (click)="changeTheme('blue')">
+          <div class="ui blue empty circular label"></div>
+          Blue
+        </div>
+        <div class="item" (click)="changeTheme('purple')">
+          <div class="ui purple empty circular label"></div>
+          Purple
+        </div>
+        <div class="item" (click)="changeTheme('pink')">
+          <div class="ui pink empty circular label"></div>
+          Pink
+        </div>
+        <div class="item" (click)="changeTheme('teal')">
+          <div class="ui teal empty circular label"></div>
+          Teal
+        </div>
+        <div class="item" (click)="changeTheme('grey')">
+          <div class="ui grey empty circular label"></div>
+          Grey
+        </div>
+        <div class="item" (click)="changeTheme('orange')">
+          <div class="ui orange empty circular label"></div>
+          Orange
+        </div>
+      </div>
+    </div>
+  </div>
+  <span class="item">Invert colors :</span>
+  <div class="item">
+    <div class="ui selection dropdown">
+      <i class="dropdown icon"></i>
+      <div class="default text">Invert</div>
+      <div class="menu">
+        <div class="item" (click)="invertedTheme(true)">
+          ON
+        </div>
+        <div class="item" (click)="invertedTheme(fasle)">
+          OFF
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="right item">
+    <div class="ui action input">
+      <input type="text" placeholder="Navigate to...">
+      <div class="ui button">Go</div>
+    </div>
+  </div>
+</div>
+<div class="ui container">
+  <div class="ui top menu">
+    <div class="ui aligned category search item">
+      <div class="ui icon input">
+        <input type="text" placeholder="Search by content">
+        <i class="search icon"></i>
+      </div>
+    </div>
+    <div class="ui item">
+      <div class="ui calendar timeRange">
+        <div class="ui icon input">
+          <input type="text" placeholder="Min">
+          <i class="clock outline icon"></i>
+        </div>
+      </div>
+    </div>
+    <div class="ui item">
+      <div class="ui calendar timeRange">
+        <div class="ui icon input">
+          <input type="text" placeholder="Max">
+          <i class="clock outline icon"></i>
+        </div>
+      </div>
+    </div>
+    <div class="ui item">
+      <div class="ui icon input">
+        <i class="eye icon"></i>
+        <input type="number" placeholder="Visible tweets">
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="ui vertical animated button basic theme" tabindex="0" (click)="showSettings()">
+        <div class="hidden content">Settings</div>
+        <div class="visible content">
+          <i class="settings icon"></i>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="ui horizontal stackable three column grid basic"
+       dragula="FEED" [(dragulaModel)]='columns'>
+    <div class="column">
+    <div class="ui segment theme">
+      <span class="handle"><i class="icon move"></i></span>
+      <h4 class="ui header centered theme handle">@Someone</h4>
+      <div class="ui feed">
+        <div class="event">
+          <div class="label">
+            <img src="assets/images/avatar.png">
+          </div>
+          <div class="content">
+            <div class="summary">
+              <a>Joe Henderson</a> posted on his page
+              <div class="date">
+                on 11/11/1205
+              </div>
+            </div>
+            <div class="extra text">
+              Ours is a life of constant reruns. We're always circling back to where we'd we started, then starting all
+              over again. Even if we don't run extra laps that day, we surely will come back for more of the same
+              another day soon.
+            </div>
+            <div class="meta">
+              <a class="like">
+                <i class="like icon"></i> 5 Likes
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="event">
+          <div class="label">
+            <img src="assets/images/avatar.png">
+          </div>
+          <div class="content">
+            <div class="summary">
+              <a>Joe Henderson</a> posted on his page
+              <div class="date">
+                on 11/11/1205
+              </div>
+            </div>
+            <div class="extra text">
+              Ours is a life of constant reruns. We're always circling back to where we'd we started, then starting all
+              over again. Even if we don't run extra laps that day, we surely will come back for more of the same
+              another day soon.
+            </div>
+            <div class="meta">
+              <a class="like">
+                <i class="like icon"></i> 5 Likes
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="event">
+          <div class="label">
+            <img src="assets/images/avatar.png">
+          </div>
+          <div class="content">
+            <div class="summary">
+              <a>Joe Henderson</a> posted on his page
+              <div class="date">
+                on 11/11/1205
+              </div>
+            </div>
+            <div class="extra text">
+              Ours is a life of constant reruns. We're always circling back to where we'd we started, then starting all
+              over again. Even if we don't run extra laps that day, we surely will come back for more of the same
+              another day soon.
+            </div>
+            <div class="meta">
+              <a class="like">
+                <i class="like icon"></i> 5 Likes
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="event">
+          <div class="label">
+            <img src="assets/images/avatar.png">
+          </div>
+          <div class="content">
+            <div class="summary">
+              <a>Joe Henderson</a> posted on his page
+              <div class="date">
+                on 11/11/1205
+              </div>
+            </div>
+            <div class="extra text">
+              Ours is a life of constant reruns. We're always circling back to where we'd we started, then starting all
+              over again. Even if we don't run extra laps that day, we surely will come back for more of the same
+              another day soon.
+            </div>
+            <div class="meta">
+              <a class="like">
+                <i class="like icon"></i> 5 Likes
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    <div class="column">
+    <div class="ui segment theme">
+      <span class="handle"><i class="icon move"></i></span>
+      <h4 class="ui header centered theme handle">@Someone</h4>
+      <div class="ui feed ">
+        <div class="event">
+          <div class="label">
+            <img src="assets/images/avatar.png">
+          </div>
+          <div class="content">
+            <div class="summary">
+              <a>Joe Henderson</a> posted on his page
+              <div class="date">
+                3 days ago
+              </div>
+            </div>
+            <div class="extra text">
+              Ours is a life of constant reruns. We're always circling back to where we'd we started, then starting all
+              over again. Even if we don't run extra laps that day, we surely will come back for more of the same
+              another day soon.
+            </div>
+            <div class="meta">
+              <a class="like">
+                <i class="like icon"></i> 5 Likes
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="event">
+          <div class="label">
+            <img src="assets/images/avatar.png">
+          </div>
+          <div class="content">
+            <div class="summary">
+              <a>Joe Henderson</a> posted on his page
+              <div class="date">
+                3 days ago
+              </div>
+            </div>
+            <div class="extra text">
+              Ours is a life of constant reruns. We're always circling back to where we'd we started, then starting all
+              over again. Even if we don't run extra laps that day, we surely will come back for more of the same
+              another day soon.
+            </div>
+            <div class="meta">
+              <a class="like">
+                <i class="like icon"></i> 5 Likes
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="event">
+          <div class="label">
+            <img src="assets/images/avatar.png">
+          </div>
+          <div class="content">
+            <div class="summary">
+              <a>Joe Henderson</a> posted on his page
+              <div class="date">
+                3 days ago
+              </div>
+            </div>
+            <div class="extra text">
+              Ours is a life of constant reruns. We're always circling back to where we'd we started, then starting all
+              over again. Even if we don't run extra laps that day, we surely will come back for more of the same
+              another day soon.
+            </div>
+            <div class="meta">
+              <a class="like">
+                <i class="like icon"></i> 5 Likes
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    </div>
+    <div class="column">
+    <div class="ui segment theme">
+      <span class="handle"><i class="icon move"></i></span>
+      <h4 class="ui header centered theme handle">@Someone</h4>
+      <div class="ui feed">
+        <div class="event">
+          <div class="label">
+            <img src="assets/images/avatar.png">
+          </div>
+          <div class="content">
+            <div class="summary">
+              <a>Joe Henderson</a> posted on his page
+              <div class="date">
+                3 days ago
+              </div>
+            </div>
+            <div class="extra text">
+              Ours is a life of constant reruns. We're always circling back to where we'd we started, then starting all
+              over again. Even if we don't run extra laps that day, we surely will come back for more of the same
+              another day soon.
+            </div>
+            <div class="meta">
+              <a class="like">
+                <i class="like icon"></i> 5 Likes
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</div>

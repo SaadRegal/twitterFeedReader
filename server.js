@@ -1,4 +1,4 @@
-var spawn = require('child_process').spawn;
+var spawn = require('child_process').exec;
 
 spawn('twitter-proxy');
 spawn('http-server');
