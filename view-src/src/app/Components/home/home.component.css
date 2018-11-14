@@ -51,6 +51,6 @@ span.handle{
   background-color: #0f0f10 !important;
   margin-top: 1000px;
 }
-.ui.feed>.event>.content a {
-  font-size: 16px;
+.ui.feed>.event>.content .ui.header {
+  font-size: 1.1rem;
 }

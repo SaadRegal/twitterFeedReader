@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {DragulaService} from 'ng2-dragula';
+import {RemoteService} from '../../Services/remote/remote.service';
 
 declare let $: any;
 
@@ -64,27 +65,29 @@ export class HomeComponent implements OnInit {
 
   changeTheme(color) {
     this.settings.theme.color = color;
-    $('.theme').removeClass(this.acceptedColors);
-    $('.theme').addClass(color);
+    const theme = '.theme';
+    $(theme).removeClass(this.acceptedColors);
+    $(theme).addClass(color);
     this.invertedTheme(this.settings.theme.isInverted);
   }
 
   invertedTheme(active) {
     this.settings.theme.isInverted = active;
+    const feed = '.ui.feed';
     if (active) {
       // Setting inverted style
       $('.segment.theme').addClass('inverted');
       $('h4').removeClass(this.acceptedColors);
-      $('.ui.feed').find('.ui.header').css('color', '#fff').removeClass(this.acceptedColors);
-      $('.ui.feed').find('.summary>.date').css('color', '#eeeeee');
-      $('.ui.feed').find('.extra.text').css('color', '#fff');
-      $('.ui.feed').find('.meta>a').css('color', '#eeeeee');
+      $(feed).find('.ui.header').css('color', '#fff').removeClass(this.acceptedColors);
+      $(feed).find('.summary>.date').css('color', '#eeeeee');
+      $(feed).find('.extra.text').css('color', '#fff');
+      $(feed).find('.meta>a').css('color', '#eeeeee');
     } else {
       $('.segment.theme').removeClass('inverted');
-      $('.ui.feed').find('.ui.header').addClass(this.settings.theme.color);
-      $('.ui.feed').find('.summary>.date').css('color', 'rgba(0,0,0,.4)');
-      $('.ui.feed').find('.extra.text').css('color', '#000');
-      $('.ui.feed').find('.meta>a').css('color', 'rgba(0,0,0,.4)');
+      $(feed).find('.ui.header').addClass(this.settings.theme.color);
+      $(feed).find('.summary>.date').css('color', 'rgba(0,0,0,.4)');
+      $(feed).find('.extra.text').css('color', '#000');
+      $(feed).find('.meta>a').css('color', 'rgba(0,0,0,.4)');
     }
 
   }
