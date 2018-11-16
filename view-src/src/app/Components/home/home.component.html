@@ -63,6 +63,17 @@
     </div>
   </div>
 
+  <div class="item">
+    <a href="#" class="ui button basic theme exportData" download="data.json">
+    <i class="icon download"></i>  Export as json
+    </a>
+  </div>
+  <div class="item">
+    <div class="ui button basic red fluid" (click)="clearSetting()">
+      <i class="icon trash"></i>  Clear Settings
+    </div>
+  </div>
+
 </div>
 
 <div class="void" style="display: none">
@@ -283,7 +294,7 @@
         <input type="date" [(ngModel)]="settings.layout.timeRange.max" placeholder="max">
       </div>
     </div>
-    <div class="two fields">
+    <div class="three fields">
       <div class="field">
         <input [(ngModel)]="settings.layout.count" type="number" placeholder="Number of tweets">
       </div>
@@ -291,6 +302,16 @@
         <div class="ui button basic fluid theme" (click)="showThemeBar()">
           <i class="icon tint"></i>
           Change Theme
+        </div>
+      </div>
+      <div class="field">
+        <a href="#" class="ui button basic theme exportData fluid" download="data.json">
+          <i class="icon download"></i>  Export as json
+        </a>
+      </div>
+      <div class="field">
+        <div class="ui button basic red fluid" (click)="clearSetting()">
+          <i class="icon trash"></i>  Clear Settings
         </div>
       </div>
     </div>

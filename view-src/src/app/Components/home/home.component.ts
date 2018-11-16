@@ -32,7 +32,7 @@ export class HomeComponent implements OnInit {
           isInverted: false
         },
         layout: {
-          count: 3,
+          count: 10,
           order: ['MakeSchool', 'newsycombinator', 'ycombinator'],
           timeRange: {
             max: new Date(Date.now()),
@@ -67,12 +67,11 @@ export class HomeComponent implements OnInit {
   }
 
   displayColumns() {
-
     this.loadSettings();
     this.initUI();
     $('.placeholderSegment').css('display', 'none');
     $('.feedColumn').css('display', 'block');
-
+    this.exportJson();
   }
 
   async getTweets() {
@@ -182,21 +181,28 @@ export class HomeComponent implements OnInit {
         this.autoReload();
       }
     });
+    $('.ui.dropdown').dropdown();
     $('.ui.dropdown.colorsSelection').dropdown({
       onChange: (str, c, dom) => {
+
         const color = $('span', dom).text();
+        console.log(color)
         this.changeTheme(color);
         this.saveSettings();
       }
     });
-    $('.ui.dropdown').dropdown();
-
     $('#count').on('change keyup', () => {
       this.autoReload();
     });
     $('.showModal').on('click', () => {
       $('.ui.modal').modal('show');
     });
+  }
+
+  exportJson() {
+    const str = JSON.stringify(this.tweets);
+    const dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(str);
+    $('.exportData').attr('href', dataUri);
   }
 
   autoReload() {
@@ -211,6 +217,11 @@ export class HomeComponent implements OnInit {
     $('.ui.modal').modal('hide');
     this.saveSettings();
     this.loadTweets();
+  }
+
+  clearSetting() {
+    localStorage.clear();
+    window.location.reload();
   }
 
 
