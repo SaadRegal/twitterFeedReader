@@ -78,6 +78,7 @@ export class HomeComponent implements OnInit {
     const users = this.settings.layout.order;
     for (let i = 0; i < users.length; i++) {
       console.log(i);
+      // Loading data synchronously
       await new Promise(resolve => {
         this.remote.getTweets(users[i], this.settings.layout.count).subscribe((data: any) => {
           let newArr = data;

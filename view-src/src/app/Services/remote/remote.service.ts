@@ -1,7 +1,5 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
-import {Observable} from 'rxjs';
-
 @Injectable({
   providedIn: 'root'
 })
@@ -13,8 +11,6 @@ export class RemoteService {
   }
 
   getTweets(user, count) {
-    // console.log('d');
-
     const params = new HttpParams()
       .set('count', count)
       .set('screen_name', user);
