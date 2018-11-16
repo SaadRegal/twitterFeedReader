@@ -1,57 +1,14 @@
-<div class="ui menu top sidebar overlay theme inverted" style="overflow-y: visible !important;">
+<div class="ui menu top sidebar overlay theme inverted stackable grid" style="overflow-y: visible !important;">
   <span class="item">Theme :</span>
   <div class="item">
-    <div class="ui selection dropdown">
+    <div class="ui selection dropdown colorsSelection">
       <i class="dropdown icon"></i>
       <div class="default text">Skin</div>
       <div class="menu">
-        <div class="item" (click)="changeTheme('blue')">
-          <div class="ui blue empty circular label"></div>
-          Blue
-        </div>
-        <div class="item" (click)="changeTheme('purple')">
-          <div class="ui purple empty circular label"></div>
-          Purple
-        </div>
-        <div class="item" (click)="changeTheme('violet')">
-          <div class="ui violet empty circular label"></div>
-          Violet
-        </div>
-        <div class="item" (click)="changeTheme('pink')">
-          <div class="ui pink empty circular label"></div>
-          Pink
-        </div>
-        <div class="item" (click)="changeTheme('teal')">
-          <div class="ui teal empty circular label"></div>
-          Teal
-        </div>
-        <div class="item" (click)="changeTheme('green')">
-          <div class="ui green empty circular label"></div>
-          Green
-        </div>
-        <div class="item" (click)="changeTheme('olive')">
-          <div class="ui olive empty circular label"></div>
-          Olive
-        </div>
-        <div class="item" (click)="changeTheme('grey')">
-          <div class="ui grey empty circular label"></div>
-          Grey
-        </div>
-        <div class="item" (click)="changeTheme('black')">
-          <div class="ui black empty circular label"></div>
-          Black
-        </div>
-        <div class="item" (click)="changeTheme('grey')">
-          <div class="ui grey empty circular label"></div>
-          Grey
-        </div>
-        <div class="item" (click)="changeTheme('orange')">
-          <div class="ui orange empty circular label"></div>
-          Orange
-        </div>
-        <div class="item" (click)="changeTheme('red')">
-          <div class="ui red empty circular label"></div>
-          Red
+
+        <div class="item selectColor" *ngFor="let color of colorArray" attr.data-color="{{color}}">
+          <div [class]="'ui empty circular label '+color"></div>
+           <span>{{color}}</span>
         </div>
       </div>
     </div>
@@ -146,8 +103,6 @@
   </div>
   <div class="ui horizontal stackable three column grid basic mainSegment"
        dragula="FEED" [(dragulaModel)]='settings.layout.order' style="margin-top: 5em">
-
-
 
     <div class="column feedColumn" *ngFor="let userTweets of tweets" style="display: none">
       <div class="ui segment noResult" *ngIf="userTweets.length===0">
@@ -311,4 +266,42 @@
     <!--</div>-->
     <!--</div>-->
   </div>
+</div>
+
+<div class="ui modal ui form segment">
+  <div class="ui header theme ">
+    <i class="icon settings"></i> Settings
+  </div>
+<div style="margin-top: 10px">
+  <div class="field">
+    <label>Time Range</label>
+    <div class="two fields">
+      <div class="field">
+        <input type="date" [(ngModel)]="settings.layout.timeRange.min" placeholder="min">
+      </div>
+      <div class="field">
+        <input type="date" [(ngModel)]="settings.layout.timeRange.max" placeholder="max">
+      </div>
+    </div>
+    <div class="two fields">
+      <div class="field">
+        <input [(ngModel)]="settings.layout.count" type="number" placeholder="Number of tweets">
+      </div>
+      <div class="field">
+        <div class="ui button basic fluid theme" (click)="showThemeBar()">
+          <i class="icon tint"></i>
+          Change Theme
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ui button fluid basic theme" (click)="saveAndReload()">
+    <i class="icon save"></i>
+    Save
+  </div>
+</div>
+</div>
+
+<div class="ui button theme showModal">
+  <i class="icon setting"></i>
 </div>

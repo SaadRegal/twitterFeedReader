@@ -42,13 +42,14 @@ export class HomeComponent implements OnInit {
       };
     }
     this.tweets = [];
-    this.filteredTweets = [];
+    this.colorArray = [];
   }
 
   settings: Settings;
-  acceptedColors = 'blue purple pink teal green grey orange black violet green red olive';
+  acceptedColors = 'blue purple pink teal green olive violet red orange black grey';
+  colorArray: any;
   tweets: any;
-  filteredTweets: any;
+  autoReloadTimer: any;
 
 
   ngOnInit() {
@@ -56,8 +57,9 @@ export class HomeComponent implements OnInit {
   }
 
   loadTweets() {
-    this.tweets = [];
+    this.tweets.length = 0;
     $('.noResult').remove();
+    $('.feedColumn').css('display', 'none');
     $('.placeholderSegment').css('display', 'block');
 
     console.log('loading tweets');
@@ -115,6 +117,9 @@ export class HomeComponent implements OnInit {
         $('.timeRange').calendar();
       }
     }).sidebar('show');
+
+    // for small screen
+    $('.ui.modal').modal('hide');
   }
 
   changeTheme(color) {
@@ -154,44 +159,60 @@ export class HomeComponent implements OnInit {
   }
 
   initUI() {
+
+    this.colorArray = this.acceptedColors.split(/(\s+)/).filter(function (e) {
+      return e.trim().length > 0;
+    });
+
     $('.ui.segment').on('mouseenter', function () {
       $(this).find('span.handle').css('opacity', '0.5');
     }).on('mouseleave', function () {
       $(this).find('span.handle').css('opacity', '0');
     });
 
-    $('.timeRange.min').calendar({
+    $('.min').calendar({
       onChange: (value) => {
         this.settings.layout.timeRange.min = value;
-        setTimeout(() => {
-          this.saveSettings();
-          this.loadTweets();
-        }, 2000);
+        this.autoReload();
       }
     });
-    $('.timeRange.max').calendar({
+    $('.max').calendar({
       onChange: (value) => {
         this.settings.layout.timeRange.max = value;
-        setTimeout(() => {
-          console.log('calendar change')
-          this.saveSettings();
-          this.loadTweets();
-        }, 2000);
+        this.autoReload();
+      }
+    });
+    $('.ui.dropdown.colorsSelection').dropdown({
+      onChange: (str, c, dom) => {
+        const color = $('span', dom).text();
+        this.changeTheme(color);
+        this.saveSettings();
+      }
+    });
+    $('.ui.dropdown').dropdown();
 
-      }
+    $('#count').on('change keyup', () => {
+      this.autoReload();
     });
-    $('.ui.dropdown').dropdown({
-      onChange: () => {
-        this.saveSettings();
-      }
-    });
-    $('#count').on('change', () => {
-      setTimeout(() => {
-        this.saveSettings();
-        this.loadTweets();
-      }, 1000);
+    $('.showModal').on('click', () => {
+      $('.ui.modal').modal('show');
     });
   }
+
+  autoReload() {
+    clearTimeout(this.autoReloadTimer);
+    this.saveSettings();
+    this.autoReloadTimer = setTimeout(() => {
+      this.loadTweets();
+    }, 2000);
+  }
+
+  saveAndReload() {
+    $('.ui.modal').modal('hide');
+    this.saveSettings();
+    this.loadTweets();
+  }
+
 
 }
 

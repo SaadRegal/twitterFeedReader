@@ -11,7 +11,7 @@ import {DragulaModule} from 'ng2-dragula';
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent
+    HomeComponent,
   ],
   imports: [
     BrowserModule,
