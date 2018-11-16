@@ -93,7 +93,7 @@
   <div class="ui item">
     <div class="ui icon input">
       <i class="eye icon"></i>
-      <input type="number" placeholder="Visible tweets" [(ngModel)]="settings.layout.count">
+      <input [id]="'count'" type="number" placeholder="Number of tweets" [(ngModel)]="settings.layout.count">
     </div>
   </div>
 
@@ -107,20 +107,13 @@
   </div>
 
 </div>
-<div class="ui container">
-  <div class="feedColumn" style="display: none; margin-top:10em " *ngIf="filteredTweets.length===0">
-    <h2 class="ui icon center aligned header theme">
-      <i class="thumbs down outline icon theme"></i>
-      <div class="content">
-        No result
-        <div class="sub header">Try modifying Time range or Visible tweets</div>
-      </div>
-    </h2>
-  </div>
-  <div class="ui horizontal stackable three column grid basic"
-       dragula="FEED" [(dragulaModel)]='settings.layout.order' style="margin-top: 5em">
 
-    <div class="column placeholderColumn" *ngFor="let e of [0,1,3]">
+<div class="void" style="display: none">
+
+</div>
+<div class="ui container">
+  <div class="ui horizontal stackable three column grid basic placeholderSegment" style="margin-top: 5em">
+    <div class="column" *ngFor="let e of [0,1,3]">
       <div class="ui segment">
         <div class="ui placeholder">
           <div class="image header">
@@ -150,9 +143,14 @@
         </div>
       </div>
     </div>
+  </div>
+  <div class="ui horizontal stackable three column grid basic mainSegment"
+       dragula="FEED" [(dragulaModel)]='settings.layout.order' style="margin-top: 5em">
 
-    <div class="column feedColumn" *ngFor="let userTweets of filteredTweets " style="display: none">
-      <div class="ui segment" *ngIf="userTweets.length===0">
+
+
+    <div class="column feedColumn" *ngFor="let userTweets of tweets" style="display: none">
+      <div class="ui segment noResult" *ngIf="userTweets.length===0">
         <h3>No result</h3>
       </div>
       <div class="ui segment theme" *ngIf="userTweets.length!=0">
