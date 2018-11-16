@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {DragulaService} from 'ng2-dragula';
 import {RemoteService} from '../../Services/remote/remote.service';
+import {retry} from "rxjs/operators";
 
 declare let $: any;
 
@@ -20,8 +21,6 @@ export class HomeComponent implements OnInit {
     }).drake.on('drop', () => {
       this.saveSettings();
     });
-
-    // dragulaService.
     const localSettings = (localStorage.getItem('settings'));
     if (localSettings) {
       this.settings = JSON.parse(localSettings);
@@ -35,15 +34,13 @@ export class HomeComponent implements OnInit {
         },
         layout: {
           count: 3,
-          order: ['MakeSchool', 'newsycombinator', 'ycombinator'],
+          order: ['saad_regal', 'newsycombinator', 'ycombinator'],
           timeRange: {
             max: new Date(Date.now()),
             min: new Date(today.getFullYear(), today.getMonth(), today.getDate() - 5)
           }
         }
-      }
-      ;
-      console.log(this.settings.layout.timeRange);
+      };
     }
     this.tweets = [];
     this.filteredTweets = [];
@@ -53,63 +50,92 @@ export class HomeComponent implements OnInit {
   acceptedColors = 'blue purple pink teal green grey orange black violet green red olive';
   tweets: any;
   filteredTweets: any;
+  waitForRemote: any;
+  waitForFilter: any;
+  retry: any;
+  retryFilter: any;
+  isDisplayed: boolean;
 
 
   ngOnInit() {
+    this.loadTweets();
+  }
+
+  loadTweets() {
+    // this.tweets = [];
+    // this.filteredTweets=[];
+    console.log('loading tweets');
     this.getTweets();
-    const waitForRemote = setInterval(() => {
+    this.retry = 0;
+    this.waitForRemote = setInterval(() => {
+      console.log('working on remote')
       if (this.tweets.length === this.settings.layout.order.length) {
-        clearInterval(waitForRemote);
+        console.log('tweets reloaded');
+        clearInterval(this.waitForRemote);
         for (let i = 0; i < this.settings.layout.order.length; i++) {
           for (const userTweets of this.tweets) {
-            if (userTweets[0].user.screen_name === this.settings.layout.order[i]) {
-              this.filteredTweets.push(userTweets);
+            if (userTweets[0]) {
+              if (userTweets[0].user.screen_name === this.settings.layout.order[i]) {
+                this.filteredTweets.push(userTweets);
+              }
             }
           }
         }
-
-        const wait = setInterval(() => {
-          console.log(this.filteredTweets.length);
+        this.retryFilter = 0;
+        this.waitForFilter = setInterval(() => {
           if (this.filteredTweets.length === this.settings.layout.order.length) {
-            this.loadSettings();
-            this.initUI();
-            $('.placeholderColumn').remove();
-            $('.feedColumn').css('display', 'block');
-            clearInterval(wait);
+            this.displayColumns();
+            clearInterval(this.waitForFilter);
+          } else {
+            this.retryFilter++;
+            if (this.retryFilter > 3) {
+              this.displayColumns();
+              clearInterval(this.waitForFilter);
+            }
           }
-        }, 1);
 
-
+        }, 500);
+      } else {
+        this.retry++;
+        if (this.retry > 15) {
+          this.displayColumns();
+          clearInterval(this.waitForRemote);
+        }
       }
-    }, 1);
-    // console.log(this.tweets);
+    }, 500);
 
-
-    // setInterval(() => {
-    //  console.log(this.users);
-    // }, 1000);
+    setTimeout(() => {
+      clearInterval(this.waitForRemote);
+      clearInterval(this.waitForFilter);
+      this.displayColumns();
+    }, 1000 * 20);
   }
 
-
-  // loadTweets() {
-  //   for (const user of this.users) {
-  //     this.tweets.push(this.getTweets(user, 4));
-  //     console.log(this.tweets);
-  //   }
-  //
-  // }
+  displayColumns() {
+    if (!this.isDisplayed) {
+      this.isDisplayed = true;
+      this.loadSettings();
+      this.initUI();
+      $('.placeholderColumn').remove();
+      $('.feedColumn').css('display', 'block');
+    }
+  }
 
   getTweets() {
     for (const user of this.settings.layout.order) {
       this.remote.getTweets(user, this.settings.layout.count).subscribe((data: any) => {
-        this.tweets.push(data);
+        let newArr = data;
+        newArr = newArr.filter((item: any) => {
+          return new Date(item.created_at) >= new Date(this.settings.layout.timeRange.min) &&
+            new Date(item.created_at) <= new Date(this.settings.layout.timeRange.max);
+        });
+        console.log(newArr);
+        this.tweets.push(newArr);
       });
     }
-
   }
 
   loadSettings() {
-    console.log('ui');
     this.changeTheme(this.settings.theme.color);
   }
 
@@ -143,6 +169,7 @@ export class HomeComponent implements OnInit {
       $(feed).find('.ui.header').css('color', '#fff').removeClass(this.acceptedColors);
       $(feed).find('.summary>.date').css('color', 'rgba(255,255,255,0.6)');
       $(feed).find('.summary').css('color', 'rgba(255,255,255,0.6)');
+      $(feed).find('.summary>a').css('color', 'rgba(255,255,255,0.6)');
       $(feed).find('.extra.text').css('color', '#fff');
       $(feed).find('.meta>span').css('color', 'rgba(255,255,255,0.65)');
       $(feed).find('.meta>span>a').css('color', 'rgba(255,255,255,0.4)');
@@ -152,6 +179,7 @@ export class HomeComponent implements OnInit {
       $(feed).find('.ui.header').addClass(this.settings.theme.color);
       $(feed).find('.summary>.date').css('color', 'rgba(0,0,0,.4)');
       $(feed).find('.summary').css('color', 'rgba(0,0,0,.4)');
+      $(feed).find('.summary>a').css('color', '#4183c4');
       $(feed).find('.extra.text').css('color', '#000');
       $(feed).find('.meta>span').css('color', 'rgba(0,0,0,.6)');
       $(feed).find('.meta>span>a').css('color', 'rgba(0,0,0,.6)');
@@ -169,12 +197,16 @@ export class HomeComponent implements OnInit {
     $('.timeRange.min').calendar({
       onChange: (value) => {
         this.settings.layout.timeRange.min = value;
+        setTimeout(() => {
+          this.loadTweets();
+        }, 1500);
       }
     });
     $('.timeRange.max').calendar({
       onChange: (value) => {
         this.settings.layout.timeRange.max = value;
         setTimeout(() => {
+          this.loadTweets();
         }, 1500);
 
       }

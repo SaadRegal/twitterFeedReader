@@ -74,12 +74,6 @@
 </div>
 
 <div class="ui top menu fixed">
-  <div class="ui aligned category search item">
-    <div class="ui icon input">
-      <input type="text" placeholder="Search by content">
-      <i class="search icon"></i>
-    </div>
-  </div>
   <div class="ui item">
     <div class="ui calendar timeRange min">
       <div class="ui icon input">
@@ -114,6 +108,15 @@
 
 </div>
 <div class="ui container">
+  <div class="feedColumn" style="display: none; margin-top:10em " *ngIf="filteredTweets.length===0">
+    <h2 class="ui icon center aligned header theme">
+      <i class="thumbs down outline icon theme"></i>
+      <div class="content">
+        No result
+        <div class="sub header">Try modifying Time range or Visible tweets</div>
+      </div>
+    </h2>
+  </div>
   <div class="ui horizontal stackable three column grid basic"
        dragula="FEED" [(dragulaModel)]='settings.layout.order' style="margin-top: 5em">
 
@@ -149,7 +152,10 @@
     </div>
 
     <div class="column feedColumn" *ngFor="let userTweets of filteredTweets " style="display: none">
-      <div class="ui segment theme">
+      <div class="ui segment" *ngIf="userTweets.length===0">
+        <h3>No result</h3>
+      </div>
+      <div class="ui segment theme" *ngIf="userTweets.length!=0">
         <span class="handle"><i class="icon move"></i></span>
         <h4 class="ui header centered theme handle">@{{userTweets[0].user.screen_name}}</h4>
         <div class="ui feed">
@@ -160,8 +166,13 @@
             <div class="content">
               <div class="summary">
                 <a class="ui header theme" target="_blank" [href]="tweet.user.url">{{tweet.user.name}}</a>
-                <span *ngIf="tweet.retweeted"> retweeted at</span>
-                <span *ngIf="!tweet.retweeted"> tweeted at</span>
+                <span *ngIf="!tweet.in_reply_to_status_id">
+                  posted at
+                </span>
+                <span *ngIf="tweet.in_reply_to_status_id">
+                  replied to <a [href]="'https://twitter.com'+'/'+tweet.in_reply_to_screen_name">@{{tweet.in_reply_to_screen_name}}</a>
+                  at
+                </span>
                 <div class="date">
                   {{tweet.created_at | date:'short'}}
                 </div>
@@ -176,8 +187,10 @@
                 <span>
                   <i class="retweet icon"></i>{{tweet.retweet_count}}
                 </span>
-                <span *ngFor="let e of tweet.entities.urls">
-                  <a target="_blank" [href]="e.url"><i class="external alternate icon"></i></a>
+                <span>
+                  <a target="_blank" [href]="'https://twitter.com/i/web/status/'+tweet.id_str">
+                    <i class="external alternate icon"></i>
+                  </a>
                 </span>
               </div>
             </div>
@@ -185,6 +198,7 @@
         </div>
       </div>
     </div>
+
     <!--<div class="column">-->
     <!--<div class="ui segment theme">-->
     <!--<span class="handle"><i class="icon move"></i></span>-->
