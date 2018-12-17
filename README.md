@@ -62,6 +62,7 @@ User can export feed result as a .json file
 * [Coverflow](https://github.com/coverflowjs/coverflow)
 
 ## App Info
+[Note](https://github.com/SaadRegal/twitterFeedReader/blob/master/view-src/README.md#note-about-dynamic-style)
 
 ### Author
 [Saad Regal](https://github.com/SaadRegal/)
