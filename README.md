@@ -59,7 +59,6 @@ User can export feed result as a .json file
 * [Semantic UI](https://github.com/Semantic-Org/Semantic-UI)
 * [dragula](https://github.com/bevacqua/dragula)
 * [Angular](https://github.com/angular/angular)
-* [Coverflow](https://github.com/coverflowjs/coverflow)
 
 ## App Info
 [Note](https://github.com/SaadRegal/twitterFeedReader/blob/master/view-src/README.md#note-about-dynamic-style)
