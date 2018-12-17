@@ -33,7 +33,7 @@ export class HomeComponent implements OnInit {
         },
         layout: {
           count: 10,
-          order: ['MakeSchool', 'newsycombinator', 'ycombinator'],
+          order: ['NASA', 'elonmusk', 'pewdiepie'],
           timeRange: {
             max: new Date(Date.now()),
             min: new Date(today.getFullYear(), today.getMonth(), today.getDate() - 5)
