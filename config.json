@@ -1,0 +1,7 @@
+{
+  "consumerKey": "YOUR_TWITTER_API_CONSUMER_KEY",
+  "consumerSecret": "YOUR_TWITTER_API_CONSUMER_SECRET",
+  "accessToken": "",
+  "accessTokenSecret": "",
+  "port": "7890"
+}
