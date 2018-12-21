@@ -39,7 +39,7 @@ User can also invert colors
 
 ![](screenshots/theming.gif)
 
-### ✔️ Easing ordering with drag'n drop
+### ✔️ Easy ordering with drag'n drop
 ![](screenshots/drag_n_drop.gif)
 
 ### ✔️ Live reloading result
